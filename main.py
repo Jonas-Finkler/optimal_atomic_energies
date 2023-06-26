@@ -4,6 +4,9 @@ import operator
 from functools import reduce
 import matplotlib.pyplot as plt
 
+
+
+
 def main():
     # read file
     # todo Marco: use ase here
@@ -69,17 +72,19 @@ def main():
     print('new mean energy per atom', np.mean(newes / nats))
     print('old root mean squared energy', np.sqrt(np.mean((es / nats)**2)))
     print('new root mean squared energy', np.sqrt(np.mean((newes / nats)**2)))
-    for s in structures:
-        elcount = np.array([len([x for x in s.elements if x==el]) for el in allElems])
-        s.energy = s.energy - np.dot(elcount, x)
 
     # histogram of the per atom energy
     # There will be multiple peaks depending on the per atom energy
     plt.hist(es / nats, bins=100)
     plt.show()
-    # not the problem should be solved
+    # now the problem should be solved
     plt.hist(newes / nats, bins=100)
     plt.show()
+
+    # substract the atomic energies from the dataset
+    for s in structures:
+        elcount = np.array([len([x for x in s.elements if x==el]) for el in allElems])
+        s.energy = s.energy - np.dot(elcount, x)
 
     # todo Marco: save the new dataset
     #Structure.saveDataFull(structures, 'out.data')
